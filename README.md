@@ -1,4 +1,4 @@
-# 🛍️ E-Store Catalog - Modern React E-Commerce Application
+# 🛍️ DataExplorer - Modern React E-Commerce Application
 
 Una aplicación web profesional de e-commerce desarrollada con **React 19**, **TypeScript**, y **Vite**, que consume la API pública [FakeStore API](https://fakestoreapi.com/products) para mostrar un catálogo de productos completo y funcional.
 
@@ -76,7 +76,7 @@ Una aplicación web profesional de e-commerce desarrollada con **React 19**, **T
 
 ```bash
 # 1. Clonar el repositorio
-git clone https://github.com/usuario/e-store-catalog.git
+git clone https://github.com/Fanny-404/ATP-DataExplorer.git
 cd e-store-catalog
 
 # 2. Instalar dependencias
@@ -91,7 +91,7 @@ npm run dev
 ## 🚀 Comandos Disponibles
 
 ```bash
-npm run dev              # Desarrolloen HMR
+npm run dev             # Desarrolloen HMR
 npm run build           # Compilar para producción
 npm run preview         # Vista previa de build
 npm test                # Ejecutar pruebas
@@ -104,7 +104,7 @@ npm lint                # Linting del código
 
 ```
 src/
-├── components/          # Componentes React reutilizables
+├── components/        # Componentes React reutilizables
 │   ├── ProductCard.tsx
 │   ├── ProductGrid.tsx
 │   ├── ProductDetail.tsx
@@ -112,9 +112,9 @@ src/
 │   ├── CategoryFilter.tsx
 │   ├── SortBar.tsx
 │   └── Skeleton.tsx
-├── pages/              # Componentes de página
+├── pages/             # Componentes de página
 │   └── ProductsPage.tsx
-├── services/           # Servicios y lógica
+├── services/          # Servicios y lógica
 │   ├── api.ts         # Cliente de API
 │   └── aiService.ts   # Servicio de IA
 ├── hooks/             # Custom React hooks
@@ -203,7 +203,6 @@ npm run test:coverage
 ### Vercel
 ```bash
 # Conexión automática desde GitHub
-# https://vercel.com/new
 # Los deploys son automáticos al hacer push
 ```
 
@@ -215,13 +214,13 @@ npx netlify-cli deploy --prod --dir=dist
 
 ## 🔧 Decisiones Técnicas
 
-| Decisión | Razón |
-|----------|-------|
-| Jest + RTL | Mejor testing de comportamiento |
-| Hooks | Menos boilerplate que Redux |
-| CSS separado | Mejor mantenibilidad |
-| Axios | Timeout y cancelación built-in |
-| Skeletons | Mejor UX que spinners |
+| Decisión     | Razón                           |
+|--------------|---------------------------------|
+| Jest + RTL   | Mejor testing de comportamiento |
+| Hooks        | Menos boilerplate que Redux     |
+| CSS separado | Mejor mantenibilidad            |
+| Axios        | Timeout y cancelación built-in  |
+| Skeletons    | Mejor UX que spinners           |
 
 ## 🤖 Integración de IA
 
@@ -257,12 +256,12 @@ const response = await openai.createCompletion({
 
 ## 📱 Responsive Design
 
-| Device | Width | Layouts |
-|--------|-------|---------|
-| Mobile | <480px | 1 columna |
-| Tablet | 480-768px | 2 columnas |
-| Laptop | 768-1200px | 3 columnas |
-| Desktop | >1200px | 4+ columnas |
+| Device  | Width      | Layouts     |
+|---------|------------|-------------|
+| Mobile  | <480px     | 1 columna   |
+| Tablet  | 480-768px  | 2 columnas  |
+| Laptop  | 768-1200px | 3 columnas  |
+| Desktop | >1200px    | 4+ columnas |
 
 **Filosofía**: Mobile-First Approach
 
