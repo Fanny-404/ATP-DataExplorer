@@ -1,17 +1,7 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ProductCard } from '../../components/ProductCard';
-import { Product } from '../../types/product';
-
-jest.mock('../../services/aiService', () => ({
-  aiService: {
-    generateDescription: jest.fn().mockResolvedValue({
-      description: 'Enhanced description',
-      suggestions: ['Suggestion 1', 'Suggestion 2'],
-      summary: 'Product summary',
-    }),
-  },
-}));
+import type { Product } from '../../types/product';
 
 describe('ProductCard Component', () => {
   const mockProduct: Product = {
@@ -62,29 +52,6 @@ describe('ProductCard Component', () => {
     await user.click(viewButton);
 
     expect(mockOnViewDetails).toHaveBeenCalledWith(mockProduct);
-  });
-
-  it('should show AI Description button', () => {
-    render(
-      <ProductCard product={mockProduct} onViewDetails={mockOnViewDetails} />
-    );
-
-    const aiButton = screen.getByRole('button', { name: /generate ai description/i });
-    expect(aiButton).toBeInTheDocument();
-  });
-
-  it('should generate AI description when button is clicked', async () => {
-    const user = userEvent.setup();
-    render(
-      <ProductCard product={mockProduct} onViewDetails={mockOnViewDetails} />
-    );
-
-    const aiButton = screen.getByRole('button', { name: /generate ai description/i });
-    await user.click(aiButton);
-
-    await waitFor(() => {
-      expect(screen.getByText('Enhanced description')).toBeInTheDocument();
-    });
   });
 
   it('should display Top Rated badge for high rated products', () => {

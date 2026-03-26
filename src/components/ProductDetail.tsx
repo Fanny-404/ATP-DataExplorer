@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Product, AIDescriptionResponse } from '../types/product';
+import type { Product, AIDescriptionResponse } from '../types/product';
 import { aiService } from '../services/aiService';
 import '../styles/ProductDetail.css';
 

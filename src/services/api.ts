@@ -1,22 +1,44 @@
+/**
+ * API Service Module
+ * Handles all HTTP requests to the FakeStore API
+ * Uses Axios for HTTP client with base configuration
+ * 
+ * @module services/api
+ * @example
+ * import { apiService } from './services/api';
+ * const products = await apiService.getAllProducts();
+ */
+
 import axios from 'axios';
-import { Product } from '../types/product';
-
-const API_BASE_URL = 'https://fakestoreapi.com';
-
+import type { Product } from '../types/product';
 import type { AxiosInstance } from 'axios';
 
+/** Base URL for FakeStore API */
+const API_BASE_URL = 'https://fakestoreapi.com';
+
+/** Axios instance with default configuration */
 let apiClient: AxiosInstance = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 10000,
+  timeout: 10000, // 10 second timeout for API requests
 });
 
+/**
+ * Override the API client instance (useful for testing)
+ * @param {AxiosInstance} client - New axios instance to use
+ */
 export const setApiClient = (client: AxiosInstance) => {
   apiClient = client;
 };
 
+/**
+ * API service object containing all product-related API calls
+ */
 export const apiService = {
   /**
    * Fetch all products from the API
+   * @async
+   * @returns {Promise<Product[]>} Array of all products
+   * @throws {Error} If the API request fails
    */
   getAllProducts: async (): Promise<Product[]> => {
     try {
@@ -29,7 +51,11 @@ export const apiService = {
   },
 
   /**
-   * Fetch a single product by ID
+   * Fetch a single product by its ID
+   * @async
+   * @param {number} id - Product ID to fetch
+   * @returns {Promise<Product>} The requested product
+   * @throws {Error} If the API request fails
    */
   getProductById: async (id: number): Promise<Product> => {
     try {
@@ -42,7 +68,10 @@ export const apiService = {
   },
 
   /**
-   * Fetch all available categories
+   * Fetch all available product categories
+   * @async
+   * @returns {Promise<string[]>} Array of category names
+   * @throws {Error} If the API request fails
    */
   getCategories: async (): Promise<string[]> => {
     try {
@@ -55,7 +84,11 @@ export const apiService = {
   },
 
   /**
-   * Fetch products by category
+   * Fetch all products in a specific category
+   * @async
+   * @param {string} category - Category name to filter by
+   * @returns {Promise<Product[]>} Array of products in the category
+   * @throws {Error} If the API request fails
    */
   getProductsByCategory: async (category: string): Promise<Product[]> => {
     try {
@@ -67,3 +100,4 @@ export const apiService = {
     }
   },
 };
+

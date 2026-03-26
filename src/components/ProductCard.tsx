@@ -1,38 +1,41 @@
-import React, { useState } from 'react';
-import { Product, AIDescriptionResponse } from '../types/product';
-import { aiService } from '../services/aiService';
+/**
+ * ProductCard Component
+ * Displays a single product in the catalog grid
+ * Shows product image, title, description, price, rating, and action button
+ * Features:
+ * - Lazy loading for product images
+ * - Fallback placeholder for missing images
+ * - 'Top Rated' badge for highly-rated products (>4.0 rating)
+ * - Price formatting with currency
+ * - Customer rating with count
+ * - View Details button for opening product detail modal
+ * 
+ * @component
+ * @param {Object} props - Component props
+ * @param {Product} props.product - Product data to display
+ * @param {Function} props.onViewDetails - Callback fired when View Details button clicked
+ * @returns {React.ReactElement} Product card component
+ * 
+ * @example
+ * const product = { id: 1, title: 'Laptop', price: 999, ... }
+ * return <ProductCard product={product} onViewDetails={handleViewDetails} />
+ */
+
+import React from 'react';
+import type { Product } from '../types/product';
 import '../styles/ProductCard.css';
 
+/**
+ * Props for ProductCard component
+ */
 interface ProductCardProps {
+  /** Product object containing all product information */
   product: Product;
+  /** Callback function triggered when View Details button is clicked */
   onViewDetails: (product: Product) => void;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails }) => {
-  const [showAIDescription, setShowAIDescription] = useState(false);
-  const [aiDescription, setAIDescription] = useState<AIDescriptionResponse | null>(null);
-  const [loadingAI, setLoadingAI] = useState(false);
-  const [errorAI, setErrorAI] = useState<string | null>(null);
-
-  const handleGenerateAIDescription = async () => {
-    if (showAIDescription) {
-      setShowAIDescription(false);
-      return;
-    }
-
-    try {
-      setLoadingAI(true);
-      setErrorAI(null);
-      const description = await aiService.generateDescription(product);
-      setAIDescription(description);
-      setShowAIDescription(true);
-    } catch (error) {
-      setErrorAI(error instanceof Error ? error.message : 'Failed to generate description');
-    } finally {
-      setLoadingAI(false);
-    }
-  };
-
   const rating = product.rating?.rate || 0;
 
   return (
@@ -55,31 +58,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails
         <span className="product-category">{product.category}</span>
         <h3 className="product-title">{product.title}</h3>
 
-        {!showAIDescription && (
-          <p className="product-description">{product.description}</p>
-        )}
-
-        {showAIDescription && aiDescription && (
-          <div className="ai-description-container">
-            <div className="ai-badge">✨ AI Enhanced</div>
-            <div className="ai-section">
-              <h4>Enhanced Description</h4>
-              <p>{aiDescription.description}</p>
-            </div>
-            <div className="ai-section">
-              <h4>Shopping Suggestions</h4>
-              <ul className="suggestions-list">
-                {aiDescription.suggestions.map((suggestion, index) => (
-                  <li key={index}>{suggestion}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="ai-section">
-              <h4>Summary</h4>
-              <p>{aiDescription.summary}</p>
-            </div>
-          </div>
-        )}
+        <p className="product-description">{product.description}</p>
 
         <div className="product-footer">
           <div className="product-price-rating">
@@ -100,18 +79,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product, onViewDetails
           >
             View Details
           </button>
-          <button
-            className={`btn btn-secondary ${loadingAI ? 'loading' : ''}`}
-            onClick={handleGenerateAIDescription}
-            disabled={loadingAI}
-            aria-label="Generate AI description"
-            title="Generate AI-enhanced description and suggestions"
-          >
-            {loadingAI ? '⏳ Loading...' : showAIDescription ? '✕ Close' : '🤖 AI Description'}
-          </button>
         </div>
-
-        {errorAI && <div className="error-message">{errorAI}</div>}
       </div>
     </div>
   );

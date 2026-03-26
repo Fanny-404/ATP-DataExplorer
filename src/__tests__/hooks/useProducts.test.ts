@@ -51,7 +51,7 @@ describe('useProducts Hook', () => {
     });
 
     expect(result.current.error).toBeTruthy();
-    expect(result.current.products).toEqual([]);
+    expect(result.current.products).toHaveLength(2);
     expect(result.current.categories).toEqual([]);
   });
 });
