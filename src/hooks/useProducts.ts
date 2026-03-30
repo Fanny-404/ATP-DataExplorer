@@ -3,7 +3,7 @@
  * @module hooks/useProducts
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { Product, ProductsState } from '../types/product';
 import { apiService } from '../services/api';
 
@@ -36,32 +36,32 @@ export const useProducts = () => {
     categories: [],
   });
 
-  // Fallback products displayed when API fails (for demo purposes)
-  const fallbackProducts: Product[] = [
-    {
-      id: 1,
-      title: 'Sample Vintage Backpack',
-      price: 45.99,
-      description: 'Stylish and durable backpack for travel and daily use.',
-      category: "men's clothing",
-      image:
-        'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
-      rating: { rate: 4.3, count: 120 },
-    },
-    {
-      id: 2,
-      title: 'Modern Wireless Headphones',
-      price: 99.99,
-      description: 'Noise-cancelling headphones with up to 20h battery life.',
-      category: 'electronics',
-      image:
-        'https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg',
-      rating: { rate: 4.6, count: 220 },
-    },
-  ];
-
   // Fetch products and categories on component mount
   useEffect(() => {
+    // Fallback products displayed when API fails (for demo purposes)
+    const fallbackProducts: Product[] = [
+      {
+        id: 1,
+        title: 'Sample Vintage Backpack',
+        price: 45.99,
+        description: 'Stylish and durable backpack for travel and daily use.',
+        category: "men's clothing",
+        image:
+          'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
+        rating: { rate: 4.3, count: 120 },
+      },
+      {
+        id: 2,
+        title: 'Modern Wireless Headphones',
+        price: 99.99,
+        description: 'Noise-cancelling headphones with up to 20h battery life.',
+        category: 'electronics',
+        image:
+          'https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_.jpg',
+        rating: { rate: 4.6, count: 220 },
+      },
+    ];
+
     const fetchData = async () => {
       try {
         setState((prev) => ({ ...prev, loading: true, error: null }));
@@ -150,9 +150,7 @@ export const useFilteredProducts = (
   selectedCategory: string | null,
   sortBy: 'asc' | 'desc' | 'none'
 ) => {
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
-
-  useEffect(() => {
+  const filteredProducts = useMemo(() => {
     let result = [...products];
 
     // Step 1: Apply category filter if selected
@@ -180,7 +178,7 @@ export const useFilteredProducts = (
       });
     }
 
-    setFilteredProducts(result);
+    return result;
   }, [products, searchTerm, selectedCategory, sortBy]);
 
   return filteredProducts;

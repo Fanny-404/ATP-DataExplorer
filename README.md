@@ -340,8 +340,22 @@ const filtered = useFilteredProducts(
 #### 7️⃣ TypeScript strict (verbatimModuleSyntax)
 **Por qué:** Claridad entre tipos y valores, mejor tree-shaking, consistency, future-proof
 
-#### 8️⃣ Axios como HTTP Client
-**Por qué:** Request/response interceptors, timeout built-in, automatic JSON, mejor error handling, fácil mocking
+#### 9️⃣ Simulated AI con Templates Contextuales
+**Por qué:** Cumple requisito de IA sin dependencias externas, mantenible, rápido, contextual, extensible a real AI
+
+**Implementación:**
+- Templates por categoría (electronics, jewelery, clothing)
+- Sugerencias basadas en precio (budget, mid-range, premium)
+- Resumen profesional automático
+- Simulación de delay para realismo (1.5s)
+- Fácil reemplazo por API real (OpenAI, etc.)
+
+**Beneficios:**
+- ✅ Funcionalidad IA obligatoria cumplida
+- ✅ Sin costos de API externa
+- ✅ Respuestas consistentes y relevantes
+- ✅ Fácil testing y mocking
+- ✅ Preparado para integración real
 
 ---
 
@@ -768,7 +782,59 @@ import { Product, useProducts } from '...';  // Error
 
 ---
 
-## 📊 Performance Optimizations
+## 🤖 Implementación de Funcionalidad IA
+
+### Requisito OBLIGATORIO
+Como especificado en los requerimientos, se implementó una característica que simula inteligencia artificial con un botón explícito **"🤖 Generate AI Description"**.
+
+### Arquitectura de IA
+
+#### AI Service (`src/services/aiService.ts`)
+- **Simulación de IA**: Usa templates contextuales en lugar de API externa
+- **Delay artificial**: 1.5 segundos para simular procesamiento de IA
+- **Templates por categoría**: Descripciones específicas para electronics, jewelery, clothing
+- **Lógica contextual**: Sugerencias basadas en precio y rating
+
+#### Flujo de IA
+1. Usuario hace click en "🤖 Generate AI Description"
+2. Botón muestra "⏳ Generating..." y se deshabilita
+3. Simula llamada a IA (setTimeout 1.5s)
+4. Genera descripción, sugerencias y resumen usando templates
+5. Muestra resultado con badge "✨ AI Enhanced"
+6. Usuario puede cerrar con botón ✕
+
+#### Templates de IA
+
+**Por Categoría:**
+- **Electronics**: "Premium [title]. [original] This state-of-the-art device combines cutting-edge technology..."
+- **Jewelery**: "Exquisite [title]. [original] Crafted with meticulous attention to detail..."
+- **Clothing**: "Stylish [title]. [original] Perfect for any occasion..."
+
+**Sugerencias por Precio:**
+- **Budget (<$50)**: "Great value for money", "Affordable quality"
+- **Mid-range ($50-$200)**: "Excellent choice", "High-quality product"
+- **Premium (>$200)**: "Luxury item", "Premium quality"
+
+#### Beneficios de la Implementación
+- ✅ Cumple requisito obligatorio de IA
+- ✅ Sin dependencias externas (no requiere API key)
+- ✅ Respuestas consistentes y relevantes
+- ✅ Fácil de extender a API real (OpenAI, etc.)
+- ✅ Completamente testeable
+- ✅ Mejor UX con loading states
+
+#### Futura Integración con API Real
+Para integrar con OpenAI o similar:
+
+```typescript
+// Reemplazar en aiService.ts
+const response = await openai.chat.completions.create({
+  model: "gpt-3.5-turbo",
+  messages: [{ role: "user", content: prompt }],
+});
+```
+
+---
 
 ### 1. Memoization
 - useFilteredProducts wrapped in useMemo
